@@ -22,7 +22,6 @@ export default function ListFilms(){
         const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
         promise.then((res)=>{
             setList(res.data);
-            console.log(res.data.length)
         })
     },[])
    
