@@ -11,7 +11,7 @@ export default function Header(){
 
 const Topper = styled.div `
         position: fixed;
-        top:0;
+        top: 0;
         left: 0;
         z-index: 1;
         display: flex;
@@ -26,5 +26,4 @@ const Topper = styled.div `
         font-size: 34px;
         line-height: 40px;
         color: #E8833A;
-            
     `

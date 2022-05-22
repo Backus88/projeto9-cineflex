@@ -112,7 +112,7 @@ const HourDiv = styled.div `
     color: #FFFFFF;
     text-decoration: none;
 `
-const MiniFrame = styled.div `
+export const MiniFrame = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,7 +121,7 @@ const MiniFrame = styled.div `
     background: #FFFFFF;
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
-    margin-left: 5px;
+    margin-left: 20px;
     img{
         width: 48px;
         height: 72px;

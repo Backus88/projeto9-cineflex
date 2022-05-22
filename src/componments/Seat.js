@@ -2,12 +2,18 @@ import axios from "axios";
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styled from "styled-components"
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { List } from "./ListFilms"
+import { List } from "./ListFilms";
+import Footer from "./Footer";
+import { Film } from "./ListFilms";
+import { MiniFrame } from "./Session";
 
 export default function Seats(){
     const{idSessao}= useParams();
+    const [footerSeatTitle, setFooterSeatTitle ] = useState("");
+    const [footerSeatUrl, setFooterSeatUrl]= useState("");
+    const[footerSeatDay, setFooterSeatDay]= useState("");
+    const[footerSeat, setFooterSeat]= useState({});
     const[seats, setSeats]= useState([]);
     const[seat, setSeat]= useState([]);
     const[seatId, setSeatId]= useState([]);
@@ -34,6 +40,10 @@ export default function Seats(){
             setMovie(res.data.movie.title);
             setDate(res.data.day.date);
             setHour(res.data.name)
+            setFooterSeatTitle(res.data.movie.title);
+            setFooterSeatUrl(res.data.movie.posterURL);
+            setFooterSeatDay(res.data.day.weekday);
+            setFooterSeat({...res.data});
         })
     },[]);
 
@@ -97,59 +107,77 @@ export default function Seats(){
                 console.log(error);
         })
     }
-    console.log(film);
-    return(
-       <List>
-           <h1>
-                Selecione o(s) assento(s)
-           </h1>
-            <CinemaStyle>
-                {seats.map((item,index)=> (item.isAvailable)?
-                    <SeatStyle key={index} enable ={item.isAvailable}choosed={choosed[index]} onClick={()=>selecting( index, item.name,item.id)}>
-                        {item.name}
-                    </SeatStyle>
-                    :
-                    <SeatStyle key={index} enable ={item.isAvailable}>
-                        {item.name}
-                    </SeatStyle>
-                )}
-                <Exemples>
-                    <Column>
-                        <SeatStyle choosed={true}>
+    // console.log(footerSeatTitle);
+    console.log(footerSeatUrl);
+    return (
+        <>
+            <List>
+                <h1>
+                    Selecione o(s) assento(s)
+                </h1>
+                <CinemaStyle>
+                    {seats.map((item, index) => (item.isAvailable) ?
+                        <SeatStyle key={index} enable={item.isAvailable} choosed={choosed[index]} onClick={() => selecting(index, item.name, item.id)}>
+                            {item.name}
                         </SeatStyle>
-                        <h2>Selecionado</h2>
-                    </Column>
-                    <Column>
-                        <SeatStyle enable ={true}>
-                        </SeatStyle>
-                        <h2>Disponível</h2>
-                    </Column>
-                    <Column>
-                        <SeatStyle>
-                        </SeatStyle>
-                        <h2>Indisponível</h2>
-                    </Column>         
-                </Exemples>
-            </CinemaStyle>
-            <Forms>
-                <section>
-                    <label> Nome do comprador:</label>
-                    <input type="text" placeholder="Digite seu nome..." onChange={getName} />
-                    <label> CPF do comprador:</label>
-                    <input type="text" placeholder="CPF apenas numeros" onChange={getCpf} />
-                    <Centered>
-                        {
-                        (validaCpf&&validaName&&isSeat)?
-                        // <Link to={"/sucesso"}  style ={{textDecoration:'none'}} state={{ name,cpf,seat,movie,date,hour}} >
-                             <Button ok={true}  onClick={()=>GoSucess()} ><h3>Reservar assento(s)</h3></Button>
-                        // </Link>
                         :
-                        <Button ok={false}><h3>Reservar assento(s)</h3></Button>
-                        }
-                    </Centered>
-                </section>
-            </Forms>
-       </List>
+                        <SeatStyle key={index} enable={item.isAvailable}>
+                            {item.name}
+                        </SeatStyle>
+                    )}
+                    <Exemples>
+                        <Column>
+                            <SeatStyle choosed={true}>
+                            </SeatStyle>
+                            <h2>Selecionado</h2>
+                        </Column>
+                        <Column>
+                            <SeatStyle enable={true}>
+                            </SeatStyle>
+                            <h2>Disponível</h2>
+                        </Column>
+                        <Column>
+                            <SeatStyle>
+                            </SeatStyle>
+                            <h2>Indisponível</h2>
+                        </Column>
+                    </Exemples>
+                </CinemaStyle>
+                <Forms>
+                    <section>
+                        <label> Nome do comprador:</label>
+                        <input type="text" placeholder="Digite seu nome..." onChange={getName} />
+                        <label> CPF do comprador:</label>
+                        <input type="text" placeholder="CPF apenas numeros" onChange={getCpf} />
+                        <Centered>
+                            {
+                                (validaCpf && validaName && isSeat) ?
+                                    // <Link to={"/sucesso"}  style ={{textDecoration:'none'}} state={{ name,cpf,seat,movie,date,hour}} >
+                                    <Button ok={true} onClick={() => GoSucess()} ><h3>Reservar assento(s)</h3></Button>
+                                    // </Link>
+                                    :
+                                    <Button ok={false}><h3>Reservar assento(s)</h3></Button>
+                            }
+                        </Centered>
+                    </section>
+                </Forms>
+            </List>
+            <Footer>
+                <Film>
+                    <MiniFrame>
+                        <img src={footerSeatUrl} alt="aaaaaa" />
+                    </MiniFrame>
+                </Film>
+                <FooterSeatDiv>
+                    <h5>
+                        {(footerSeatTitle)}
+                    </h5>
+                    <h5>
+                        {footerSeatDay}-{footerSeat.name}
+                    </h5>
+                </FooterSeatDiv>
+            </Footer>
+        </>
     )
 }
 
@@ -268,4 +296,9 @@ export const Centered = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 50px;
+`
+
+const FooterSeatDiv = styled.div`
+    display: flex;
+    flex-direction: column;
 `

@@ -40,12 +40,13 @@ export default function ListFilms(){
 export const List = styled.div`
     margin-top: 100px;
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-
+    box-sizing: content-box;
+    margin-bottom: 150px;
     h1{
         font-family: 'Roboto';
         font-style: normal;

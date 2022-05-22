@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import styled from "styled-components";
 import Session from "./Session";
 import Header from "./Header";
 import ListFilms from "./ListFilms";
@@ -14,14 +15,20 @@ export default function  App(){
     return(
         <BrowserRouter>
             <Header/>
-            <Routes>
-                <Route  path="/" element = {<ListFilms/>}    />
-                <Route path="/sessoes/:idFilme" element = {<Session />} />
-                <Route path= "/assentos/:idSessao" element = {<Seats />} />
-                <Route path ="/sucesso" element ={<Sucesso/>}/>
-            </Routes>
+            {/* <Container> */}
+                <Routes>
+                    <Route  path="/" element = {<ListFilms/>}    />
+                    <Route path="/sessoes/:idFilme" element = {<Session />} />
+                    <Route path= "/assentos/:idSessao" element = {<Seats />} />
+                    <Route path ="/sucesso" element ={<Sucesso/>}/>
+                </Routes>
+            {/* </Container> */}
         </BrowserRouter>
         
     )
 
 }
+
+const Container = styled.div`
+    max-height: 100%;
+`
