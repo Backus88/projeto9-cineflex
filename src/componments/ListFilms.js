@@ -66,7 +66,7 @@ export const List = styled.div`
         color: #247A6B;
     }
 `
-const Film = styled.div `
+export const Film = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;

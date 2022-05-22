@@ -132,7 +132,7 @@ export default function Seats(){
                 </Exemples>
             </CinemaStyle>
             <Forms>
-                <footer>
+                <section>
                     <label> Nome do comprador:</label>
                     <input type="text" placeholder="Digite seu nome..." onChange={getName} />
                     <label> CPF do comprador:</label>
@@ -147,7 +147,7 @@ export default function Seats(){
                         <Button ok={false}><h3>Reservar assento(s)</h3></Button>
                         }
                     </Centered>
-                </footer>
+                </section>
             </Forms>
        </List>
     )
@@ -186,7 +186,7 @@ const SeatStyle = styled.div `
 const Forms = styled.div`
     width: 90%;
     margin-top: 50px;
-    footer{
+    section{
         display: flex;
         flex-direction: column;
         label{
