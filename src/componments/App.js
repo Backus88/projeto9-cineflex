@@ -31,4 +31,6 @@ export default function  App(){
 
 const Container = styled.div`
     max-height: 100%;
+    padding-bottom: 150px;
+    box-sizing: content-box;
 `

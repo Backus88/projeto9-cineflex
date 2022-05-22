@@ -181,7 +181,7 @@ export default function Seats(){
     )
 }
 
-const CinemaStyle = styled.div `
+export const CinemaStyle = styled.div `
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
