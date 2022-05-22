@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styled from "styled-components"
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { List } from "./ListFilms"
 
 export default function Seats(){
@@ -19,6 +20,11 @@ export default function Seats(){
     const[date, setDate]= useState("");
     const[hour, setHour]= useState("");
     const[isSeat, setIsSeat]= useState(false);
+    const[film, setFilm] = useState({
+        ids: [],
+        name: "",
+        cpf: ""
+   });
 
     useEffect(()=>{
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`);
@@ -36,9 +42,11 @@ export default function Seats(){
         if(event.target.value.length ===11 ){
             setValidaCpf(true);
             setCpf(event.target.value);
+            setFilm({...film, cpf: event.target.value})
         }else{
             setValidaCpf(false);
             setCpf("");
+            setFilm({...film, cpf: ""})
         }
     }
 
@@ -47,9 +55,11 @@ export default function Seats(){
         if(event.target.value.length >5 && event.target.value.length <30 ){
             setValidaName(true);
             setName(event.target.value);
+            setFilm({...film, name: event.target.value})
         }else{
             setValidaName(true);
             setName("");
+            setFilm({...film, name: ""})
         }
     }
 
@@ -63,17 +73,31 @@ export default function Seats(){
             setChoosed(newArr);
             setIsSeat(true);
             setSeatId([...seatId, idSeat])
+            setFilm({...film, ids:[...film.ids, idSeat]});
         }else{
             newArr[index]= false;
             setChoosed(newArr);
             setSeat([...newArray.filter((value)=> value !==nameId)]);
-            setSeatId([...ArrNew.filter((itens)=> itens !==idSeat)])
+            setSeatId([...ArrNew.filter((itens)=> itens !==idSeat)]);
+            setFilm({...film, ids:[...film.ids.filter((itens)=> itens !==idSeat)]});
             if(seat.length <=1) setIsSeat(false);
         }
        
     }
-
-    console.log(seatId)
+    
+    const navigate = useNavigate();
+    function GoSucess(){
+        console.log("oi")
+        const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", film);
+        promise.then((res)=>{
+                console.log("aqui");
+                 navigate("/sucesso", {state :{name,cpf,seat,movie,date,hour}});
+           })
+        promise.catch((error) =>{
+                console.log(error);
+        })
+    }
+    console.log(film);
     return(
        <List>
            <h1>
@@ -108,22 +132,22 @@ export default function Seats(){
                 </Exemples>
             </CinemaStyle>
             <Forms>
-                <form>
+                <footer>
                     <label> Nome do comprador:</label>
-                    <input type="text" placeholder="Digite seu nome..." onChange={getName}/>
+                    <input type="text" placeholder="Digite seu nome..." onChange={getName} />
                     <label> CPF do comprador:</label>
                     <input type="text" placeholder="CPF apenas numeros" onChange={getCpf} />
                     <Centered>
                         {
                         (validaCpf&&validaName&&isSeat)?
-                        <Link to={"/sucesso"}  style ={{textDecoration:'none'}} state={{ name,cpf,seat,movie,date,hour}} >
-                             <Button ok={true}><h3>Reservar assento(s)</h3></Button>
-                        </Link>
+                        // <Link to={"/sucesso"}  style ={{textDecoration:'none'}} state={{ name,cpf,seat,movie,date,hour}} >
+                             <Button ok={true}  onClick={()=>GoSucess()} ><h3>Reservar assento(s)</h3></Button>
+                        // </Link>
                         :
                         <Button ok={false}><h3>Reservar assento(s)</h3></Button>
                         }
                     </Centered>
-                </form>
+                </footer>
             </Forms>
        </List>
     )
@@ -162,7 +186,7 @@ const SeatStyle = styled.div `
 const Forms = styled.div`
     width: 90%;
     margin-top: 50px;
-    form{
+    footer{
         display: flex;
         flex-direction: column;
         label{
