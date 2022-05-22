@@ -56,6 +56,15 @@ export const List = styled.div`
         color: #293845;
         margin-bottom: 40px;
     }
+    h4{
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0.04em;
+        color: #247A6B;
+    }
 `
 const Film = styled.div `
     display: flex;

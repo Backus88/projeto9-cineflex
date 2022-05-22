@@ -2,38 +2,78 @@ import axios from "axios";
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styled from "styled-components"
+import { Link } from "react-router-dom";
 import { List } from "./ListFilms"
 
 export default function Seats(){
     const{idSessao}= useParams();
     const[seats, setSeats]= useState([]);
     const[seat, setSeat]= useState([]);
+    const[seatId, setSeatId]= useState([]);
     const[choosed, setChoosed] = useState([]);
+    const[cpf , setCpf] = useState("");
+    const[name, setName] = useState("");
+    const[validaCpf, setValidaCpf]= useState(false);
+    const[validaName, setValidaName]= useState(false);
+    const[movie, setMovie]= useState("");
+    const[date, setDate]= useState("");
+    const[hour, setHour]= useState("");
+    const[isSeat, setIsSeat]= useState(false);
 
     useEffect(()=>{
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`);
         promise.then((res)=>{
             setSeats(res.data.seats);
             setChoosed(new Array(res.data.seats.length).fill(false)) ;
+            setMovie(res.data.movie.title);
+            setDate(res.data.day.date);
+            setHour(res.data.name)
         })
     },[]);
 
-    function selecting(idSeat, index){
+    const getCpf = (event)=>{
+        event.preventDefault();
+        if(event.target.value.length ===11 ){
+            setValidaCpf(true);
+            setCpf(event.target.value);
+        }else{
+            setValidaCpf(false);
+            setCpf("");
+        }
+    }
+
+    const getName = (event)=>{
+        event.preventDefault();
+        if(event.target.value.length >5 && event.target.value.length <30 ){
+            setValidaName(true);
+            setName(event.target.value);
+        }else{
+            setValidaName(true);
+            setName("");
+        }
+    }
+
+    function selecting( index,nameId,idSeat){
         const newArr = [...choosed];
         const newArray = [...seat];
+        const ArrNew = [...seatId];
         if(!choosed[index]){
             newArr[index]= true;
-            setSeat([...seat,idSeat ]);
+            setSeat([...seat, nameId]);
             setChoosed(newArr);
+            setIsSeat(true);
+            setSeatId([...seatId, idSeat])
         }else{
             newArr[index]= false;
             setChoosed(newArr);
-            setSeat([...newArray.filter((value)=> value !==idSeat)]);
+            setSeat([...newArray.filter((value)=> value !==nameId)]);
+            setSeatId([...ArrNew.filter((itens)=> itens !==idSeat)])
+            if(seat.length <=1) setIsSeat(false);
         }
        
     }
 
-    console.log(seat)
+    console.log(seatId)
     return(
        <List>
            <h1>
@@ -41,7 +81,7 @@ export default function Seats(){
            </h1>
             <CinemaStyle>
                 {seats.map((item,index)=> (item.isAvailable)?
-                    <SeatStyle key={index} enable ={item.isAvailable}choosed={choosed[index]} onClick={()=>selecting(item.id, index)}>
+                    <SeatStyle key={index} enable ={item.isAvailable}choosed={choosed[index]} onClick={()=>selecting( index, item.name,item.id)}>
                         {item.name}
                     </SeatStyle>
                     :
@@ -70,13 +110,20 @@ export default function Seats(){
             <Forms>
                 <form>
                     <label> Nome do comprador:</label>
-                    <input type="text" placeholder="Digite seu nome..." />
+                    <input type="text" placeholder="Digite seu nome..." onChange={getName}/>
                     <label> CPF do comprador:</label>
-                    <input type="text" placeholder="Digite seu CPF..." />
+                    <input type="text" placeholder="CPF apenas numeros" onChange={getCpf} />
+                    <Centered>
+                        {
+                        (validaCpf&&validaName&&isSeat)?
+                        <Link to={"/sucesso"}  style ={{textDecoration:'none'}} state={{ name,cpf,seat,movie,date,hour}} >
+                             <Button ok={true}><h3>Reservar assento(s)</h3></Button>
+                        </Link>
+                        :
+                        <Button ok={false}><h3>Reservar assento(s)</h3></Button>
+                        }
+                    </Centered>
                 </form>
-                <Centered>
-                    <Button><h3>Reservar assento(s)</h3></Button>
-                </Centered>
             </Forms>
        </List>
     )
@@ -170,15 +217,16 @@ const Column = styled.div`
     margin: 0px 30px;
 `
 
-const Button = styled.button`
+export const Button = styled.button`
     width: 225px;
     height: 42px;
-    background: #E8833A;
+    background:${props=> props.ok? "#E8833A": "#AFAFAF"};
     border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
+    cursor: ${props => props.ok? "pointer": "default"}
     h3{
         font-family: 'Roboto';
         font-style: normal;
@@ -190,7 +238,7 @@ const Button = styled.button`
     }
     `
 
-const Centered = styled.div`
+export const Centered = styled.div`
     width: 100%;
     display: flex;
     align-items: center;

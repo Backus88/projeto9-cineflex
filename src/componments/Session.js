@@ -40,7 +40,7 @@ export default function Session(){
     )
 }
 
-const FilmDiv = styled.div `
+export const FilmDiv = styled.div `
     height: auto;
     width: 100%;
     display: flex;
@@ -54,6 +54,17 @@ const FilmDiv = styled.div `
         font-size: 20px;
         line-height: 23px;
         margin-left: 24px;
+    }
+
+    h1{
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0.04em;
+        color: #293845;
+        margin-top: 30px;
     }
 `
 const HoursDiv = styled.div `
