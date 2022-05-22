@@ -28,7 +28,7 @@ export default function ListFilms(){
 
 
     return(
-        <List>
+        <List width= {"100%"}>
             <h1>Selecione o filme</h1>
             <Film>
                 {list.map((item,index) =><ImgFilm key={index} id={item.id} source ={item.posterURL} /> )}
@@ -40,8 +40,7 @@ export default function ListFilms(){
 export const List = styled.div`
     margin-top: 100px;
     width: 100%;
-    height: 1000px;
-    max-height: 1300px;
+    height: ${props =>props.width};
     display: flex;
     flex-direction: column;
     align-items: center;

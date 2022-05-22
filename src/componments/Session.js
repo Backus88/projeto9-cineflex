@@ -25,7 +25,7 @@ export default function Session(){
     console.log(footerMovie);
     return(
         <>
-            <List>
+            <List width= {"1000px"}>
                 <h1>Selecione o horário</h1>
                 {days.map((item, index) =>
                     <FilmDiv key = {index}>

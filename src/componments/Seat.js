@@ -111,7 +111,7 @@ export default function Seats(){
     console.log(footerSeatUrl);
     return (
         <>
-            <List>
+            <List width= {"100%"}>
                 <h1>
                     Selecione o(s) assento(s)
                 </h1>
