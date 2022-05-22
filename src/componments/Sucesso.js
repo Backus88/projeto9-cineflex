@@ -12,7 +12,7 @@ export default function Sucess (){
     const location = useLocation();
     const {name, cpf, seat, movie,date,hour}= location.state;
     return(
-        <List>
+        <List width= {"100%"}>
             <h4>Pedido Feito</h4>
             <h4>com sucesso!</h4>
             <CinemaStyle>

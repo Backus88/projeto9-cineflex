@@ -278,7 +278,7 @@ export const Button = styled.button`
     align-items: center;
     justify-content: center;
     border: none;
-    cursor: ${props => props.ok? "pointer": "default"}
+    cursor: ${props => props.ok? "pointer": "default"};
     h3{
         font-family: 'Roboto';
         font-style: normal;
