@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import styled from "styled-components"
 import { Link } from 'react-router-dom';
 
-export default function ListFilms(){
+export default function ListFilms({setButtonHeader}){
 
     function ImgFilm({id, source}){
         return(
@@ -20,10 +20,11 @@ export default function ListFilms(){
 
     useEffect(()=>{
         const promise = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies");
+        setButtonHeader(false);
         promise.then((res)=>{
             setList(res.data);
         })
-    },[])
+    },[setButtonHeader])
    
 
 
