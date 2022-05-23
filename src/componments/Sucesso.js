@@ -8,6 +8,7 @@ import { CinemaStyle } from "./Seat";
 
 export default function Sucess (){
 
+    
     const location = useLocation();
     const {name, cpf, seat, movie,date,hour}= location.state;
     return(

@@ -16,7 +16,7 @@ export default function  App(){
         <BrowserRouter>
             <Header buttonHeader ={buttonHeader} setButtonHeader={setButtonHeader}  />
                 <Routes>
-                    <Route  path="/" element = {<ListFilms buttonHeader ={buttonHeader} setButtonHeader={setButtonHeader} />}    />
+                    <Route  path="/" element = {<ListFilms  setButtonHeader={setButtonHeader} />}    />
                     <Route path="/sessoes/:idFilme" element = {<Session buttonHeader ={buttonHeader} setButtonHeader={setButtonHeader} />} />
                     <Route path= "/assentos/:idSessao" element = {<Seats buttonHeader ={buttonHeader} setButtonHeader={setButtonHeader} />} />
                     <Route path ="/sucesso" element ={<Sucesso/>}/>
