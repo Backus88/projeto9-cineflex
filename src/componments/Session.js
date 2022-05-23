@@ -7,7 +7,7 @@ import { List } from "./ListFilms"
 import Footer from './Footer';
 import { Film } from './ListFilms';
 
-export default function Session(){
+export default function Session({ setButtonHeader}){
     const {idFilme} = useParams();
     const [days, setDays]= useState([]);
     const [footerMovie, setFooterMovie]= useState("");
@@ -15,14 +15,14 @@ export default function Session(){
 
     useEffect (()=>{
         const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`);
+        setButtonHeader(true);
         promise.then((res)=>{
             setDays(res.data.days);
             setFooterMovie(res.data.posterURL);
             setFooterTitle(res.data.title);
         });
-    },[])
+    },[idFilme,setButtonHeader])
 
-    console.log(footerMovie);
     return(
         <>
             <List width= {"1000px"}>

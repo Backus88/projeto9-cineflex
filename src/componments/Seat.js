@@ -8,7 +8,7 @@ import Footer from "./Footer";
 import { Film } from "./ListFilms";
 import { MiniFrame } from "./Session";
 
-export default function Seats(){
+export default function Seats({setButtonHeader}){
     const{idSessao}= useParams();
     const [footerSeatTitle, setFooterSeatTitle ] = useState("");
     const [footerSeatUrl, setFooterSeatUrl]= useState("");
@@ -45,7 +45,7 @@ export default function Seats(){
             setFooterSeatDay(res.data.day.weekday);
             setFooterSeat({...res.data});
         })
-    },[]);
+    },[idSessao]);
 
     const getCpf = (event)=>{
         event.preventDefault();
@@ -97,18 +97,16 @@ export default function Seats(){
     
     const navigate = useNavigate();
     function GoSucess(){
-        console.log("oi")
+        setButtonHeader(false);
         const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", film);
         promise.then((res)=>{
-                console.log("aqui");
                  navigate("/sucesso", {state :{name,cpf,seat,movie,date,hour}});
            })
         promise.catch((error) =>{
                 console.log(error);
         })
     }
-    // console.log(footerSeatTitle);
-    console.log(footerSeatUrl);
+
     return (
         <>
             <List width= {"100%"}>
@@ -128,16 +126,19 @@ export default function Seats(){
                     <Exemples>
                         <Column>
                             <SeatStyle choosed={true}>
+                                
                             </SeatStyle>
                             <h2>Selecionado</h2>
                         </Column>
                         <Column>
                             <SeatStyle enable={true}>
+                                
                             </SeatStyle>
                             <h2>Disponível</h2>
                         </Column>
                         <Column>
                             <SeatStyle>
+                                
                             </SeatStyle>
                             <h2>Indisponível</h2>
                         </Column>
@@ -192,12 +193,15 @@ export const CinemaStyle = styled.div `
 `
 
 const SeatStyle = styled.div `
-    width: 26px;
-    height: 26px;
+    width: 7%;
+    min-width: 20px;
+    min-height: 20px;
+    padding-top: 2%;
+    padding-bottom: 2%;
     background:${props => props.choosed ? "#8DD7CF" :props.enable?"#C3CFD9 " :"#F7C52B"};
     border: 1px solid #808F9D;
-    border-radius: 12px;
-    margin: 9px 3.5px;
+    border-radius: 50%;
+    margin: 9px 1%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -209,6 +213,7 @@ const SeatStyle = styled.div `
     letter-spacing: 0.04em;
     color: #000000;
     cursor: ${props =>props.enable? "pointer": "default"};
+
 `
 
 const Forms = styled.div`

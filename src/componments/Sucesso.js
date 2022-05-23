@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
 import { List } from "./ListFilms";
-import { FilmDiv } from "./Session";
 import { Button } from "./Seat";
 import { Centered } from "./Seat";
 import { CinemaStyle } from "./Seat";
@@ -23,7 +22,7 @@ export default function Sucess (){
                 </SucessDiv>
                 <SucessDiv>
                     <h1>Ingressos</h1>
-                    {seat.map((item)=> <h2> Assento {item}</h2>)}
+                    {seat.map((item, index)=> <h2 key={index}> Assento {item}</h2>)}
                 </SucessDiv>
                 <SucessDiv>
                     <h1>Comprador</h1>
